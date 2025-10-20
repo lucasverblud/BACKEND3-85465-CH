@@ -1,0 +1,105 @@
+openapi: 3.0.1
+info:
+  title: Adoptions API
+  version: 1.0.0
+  description: Documentación de las rutas del módulo Adoptions
+
+paths:
+  /api/adoptions:
+    get:
+      summary: Obtener todas las adopciones registradas
+      tags:
+        - Adoptions
+      responses:
+        "200":
+          description: Lista de adopciones
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Adoption"
+
+  /api/adoptions/{uid}/{pid}:
+    post:
+      summary: Registrar una nueva adopción
+      description: Asocia un usuario con una mascota, marcando a la mascota como adoptada.
+      tags:
+        - Adoptions
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del usuario que adopta
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID de la mascota a adoptar
+      responses:
+        "201":
+          description: Adopción registrada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: "#/components/schemas/Adoption"
+        "400":
+          description: Error - la mascota ya fue adoptada o los IDs no son válidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Pet already adopted
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Internal server error
+
+components:
+  schemas:
+    Adoption:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 671b4b2db8a97a001c3a2e99
+        user:
+          type: string
+          example: 671b4a9fb8a97a001c3a2e88
+        pet:
+          type: string
+          example: 671b4aafb8a97a001c3a2e91
+        createdAt:
+          type: string
+          format: date-time
+          example: 2025-10-19T18:00:00.000Z

@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import usersRouter from "./routes/users.router.js";
 import petsRouter from "./routes/pets.router.js";
 import mocksRouter from "./routes/mocks.router.js";
+import adoptionRouter from "./routes/adoption.router.js";
 
 import { swaggerUi, swaggerSpecs } from "./docs/swagger.js";
 
@@ -16,6 +17,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/users", usersRouter);
 app.use("/api/pets", petsRouter);
 app.use("/api/mocks", mocksRouter);
+app.use("/api/adoptions", adoptionRouter);
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
